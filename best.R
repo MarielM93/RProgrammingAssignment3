@@ -10,14 +10,14 @@ best <- function(state, outcome){
         ## note:  [,11] = heart attack
         ##        [,17] = heart failure
         ##        [,23] = pneumonia
-  
+        
         ## read outcome data
         caremeasures <- read.csv("outcome-of-care-measures.csv",
-                                  header = TRUE,
-                                  na.strings = "Not Available",
-                                  stringsAsFactors = FALSE)
+                                 header = TRUE,
+                                 na.strings = "Not Available",
+                                 stringsAsFactors = FALSE)
         caremeasures <- tbl_df(caremeasures)
-  
+        
         ## check that outcome are valid
         validoutcomes <- c("heart attack" = 11, "heart failure" = 17, "pneumonia" = 23)
         if(outcome %in% names(validoutcomes)){
@@ -36,13 +36,13 @@ best <- function(state, outcome){
         
         ## subset and rank relevant parameters
         queryfields <- caremeasures %>%
-                      select(2, 7, outcomecol) %>%
-                      filter(State == state)
+                select(2, 7, outcomecol) %>%
+                filter(State == state)
         
         colnames(queryfields) <- c("Name", "State", "Rate")
         is.numeric(queryfields$Rate)
         ranked <- arrange(queryfields, Rate, Name)
         
         print(as.character(ranked[1,1]))
-
+        
 }
